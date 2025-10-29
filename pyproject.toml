@@ -1,0 +1,38 @@
+[project]
+name = "openai-repl"
+version = "0.1.0"
+description = "A tool-calling REPL that enables OpenAI models to execute Python code"
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+    "openai>=2.6.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = "test_*.py"
+python_classes = "Test*"
+python_functions = "test_*"
+addopts = [
+    "-v",
+    "--tb=short",
+    "--strict-markers",
+    "-ra",
+]
+markers = [
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+    "integration: marks tests as integration tests",
+]
+
+[tool.setuptools]
+py-modules = ["repl", "demo"]
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
