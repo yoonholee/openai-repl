@@ -18,7 +18,16 @@ Make sure to explicitly look through the entire context in REPL before answering
 
 class REPLAgent:
     def __init__(self, model="gpt-4o-mini", setup_code=None):
-        self.client = OpenAI()
+        # Auto-detect provider from model name
+        if model.startswith("gemini-") or model.startswith("models/gemini-"):
+            # Gemini via OpenAI compatibility layer
+            self.client = OpenAI(
+                api_key=os.environ.get("GEMINI_API_KEY"),
+                base_url="https://generativelanguage.googleapis.com/v1beta/openai/"
+            )
+        else:
+            # Default to OpenAI
+            self.client = OpenAI()
         self.model = model
         # Initialize state with restricted built-ins for security
         self.state = {

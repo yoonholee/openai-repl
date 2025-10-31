@@ -1,6 +1,8 @@
 # openai-repl
 
-A single-file Python REPL that enables OpenAI models to execute Python code via function calling. The model can iteratively run code, see outputs, and refine its approach to answer questions.
+A single-file Python REPL that enables LLMs to execute Python code via function calling. The model can iteratively run code, see outputs, and refine its approach to answer questions.
+
+**Supported providers:** OpenAI, Google Gemini (via OpenAI compatibility layer)
 
 Inspired by the [RLM](https://github.com/alexzhang13/rlm) repository.
 
@@ -10,8 +12,9 @@ Inspired by the [RLM](https://github.com/alexzhang13/rlm) repository.
 # Install
 uv pip install -e .
 
-# Set API key
-export OPENAI_API_KEY="your-api-key-here"
+# Set API key (choose your provider)
+export OPENAI_API_KEY="your-openai-key"        # For OpenAI models
+export GEMINI_API_KEY="your-gemini-key"        # For Gemini models
 ```
 
 ## Usage
@@ -21,7 +24,12 @@ export OPENAI_API_KEY="your-api-key-here"
 ```python
 from repl_agent import REPLAgent
 
+# OpenAI
 agent = REPLAgent(model="gpt-4o-mini")
+
+# Gemini (auto-detected from model name)
+agent = REPLAgent(model="gemini-2.0-flash-exp")
+
 response = agent.chat("Give me the first 10 digits of the 624th Fibonacci number")
 print(response)
 agent.print_tool_calls()  # See what code the model executed
